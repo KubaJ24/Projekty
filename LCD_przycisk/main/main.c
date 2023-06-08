@@ -32,8 +32,42 @@ LCD SDA
 #define I2C_MASTER_SDA_IO        CONFIG_I2C_MASTER_SDA
 #define I2C_MASTER_SCL_IO        CONFIG_I2C_MASTER_SCL
 
-//Konfiguracja I2C
-static void i2c_master_init(void)
+//Funkcje
+void i2c_konfiguracja();
+void i2c_init();
+void lcd_konfiguracja();
+void SMBus_init();
+void lcd_wyswietl_znak(char znak);
+void lcd_clear();
+void lcd_kursor_poz(char kol, char wier);
+void lcd_home();
+
+void app_main(void)
+{
+    i2c_konfiguracja();
+    i2c_init();
+    SMBus_init();
+    lcd_konfiguracja();
+
+    char a = 'a';
+    char b = 'b';
+
+    lcd_wyswietl_znak(a);
+
+    //Główna pętla programu
+    while(1){
+        
+    }
+}
+
+/*
+- wyświetlić napis
+- napis, clear, delay, napis, ...
+- przycisk, napis, delay, ...
+*/
+
+i2c_konfiguracja(){
+    static void i2c_master_init(void)
 {
     int i2c_master_port = I2C_MASTER_NUM;
     i2c_config_t conf;
@@ -48,19 +82,15 @@ static void i2c_master_init(void)
                        I2C_MASTER_RX_BUF_LEN,
                        I2C_MASTER_TX_BUF_LEN, 0);
 }
+}
 
-void app_main(void)
-{
-    //Włączanie I2C
+i2c_init(){
     i2c_master_init();
     i2c_port_t i2c_num = I2C_MASTER_NUM;
     uint8_t address = CONFIG_LCD1602_I2C_ADDRESS;
+}
 
-    //SMBus
-    smbus_info_t * smbus_info = smbus_malloc();
-    ESP_ERROR_CHECK(smbus_init(smbus_info, i2c_num, address));
-    ESP_ERROR_CHECK(smbus_set_timeout(smbus_info, 1000));
-
+lcd_konfiguracja(){
     //Włączanie LCD
     i2c_lcd1602_info_t * i2c_lcd1602_info = i2c_lcd1602_malloc();
     ESP_ERROR_CHECK(i2c_lcd1602_init(i2c_lcd1602_info, smbus_info, true,
@@ -78,8 +108,24 @@ void app_main(void)
     i2c_lcd1602_set_left_to_right(i2c_lcd1602_info);        //Kierunek przesuwania lewo - prawo
 }
 
-/*
-- wyświetlić napis
-- napis, clear, delay, napis, ...
-- przycisk, napis, delay, ...
-*/
+SMBus_init(){
+    smbus_info_t * smbus_info = smbus_malloc();
+    ESP_ERROR_CHECK(smbus_init(smbus_info, i2c_num, address));
+    ESP_ERROR_CHECK(smbus_set_timeout(smbus_info, 1000));
+}
+
+lcd_wyswietl_znak(char znak){
+    i2c_lcd1602_write_char(i2c_lcd1602_info, znak); 
+}
+
+lcd_clear(){
+    i2c_lcd1602_clear(i2c_lcd1602_info);
+}
+
+lcd_kursor_poz(char kol, char wier){
+    i2c_lcd1602_move_cursor(i2c_lcd1602_info, kol, wier);
+}
+
+lcd_home(){
+    i2c_lcd1602_move_cursor(i2c_lcd1602_info, 0, 0);
+}
