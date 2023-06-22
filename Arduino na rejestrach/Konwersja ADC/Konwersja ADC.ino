@@ -1,7 +1,6 @@
 /*
-Dodać opis
-zmienic konfiguracje ctc timera 2
-zamiast led_blink() toggle z timera?
+Miganie diodą z częst. prporcjonalną do napięcia na A0
+Potencjometr podłączony do A0
 */
 
 #include <avr/io.h>
@@ -18,10 +17,7 @@ ISR(ADC_vect){
   loval = ADCL;
   hival = ADCH;
   wynik = (hival<<8) | loval; 
-  timer2_ctc(wynik);
 }
-
-
 
 void setup() { }
 
@@ -33,6 +29,8 @@ void loop() {
 
   //Główna petla programu
   while(1){
-    
+    led_blink();
+    delay(wynik);
+    adc_start();
   }
 }

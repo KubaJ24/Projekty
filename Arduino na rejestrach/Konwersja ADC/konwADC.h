@@ -2,11 +2,6 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-void timer2_ctc(int odczyt);
-/* 
-Konfiguracja timera 2 w tryb ctc
-*/
-
 void io_config();
 /*
 Konfiguracja wej�� / wyj��
