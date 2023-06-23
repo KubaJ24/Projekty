@@ -10,13 +10,15 @@
 
 //bool stan = false;
 
-static void przerwanie(void * arg)
+bool przerwanie(void * arg)
 {
   gpio_set_level(led, 1);
 }
 
 void gpio_config();
 void timer_config();
+
+void setup() {}
 
 void loop() {
   gpio_config();
