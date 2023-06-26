@@ -3,16 +3,18 @@
 #include "freertos/task.h"
 #include "driver/timer.h"
 
+//1 sekunda
 #define TIMER_SCALE (TIMER_BASE_CLK / 16)
 
 #define led GPIO_NUM_18
 #define przycisk GPIO_NUM_19
 
-//bool stan = false;
+bool stan = false;
 
 bool przerwanie(void * arg)
 {
-  gpio_set_level(led, 1);
+  stan != stan;
+  gpio_set_level(led, stan);
 }
 
 void gpio_config();
