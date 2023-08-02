@@ -27,10 +27,10 @@ void setup() {
   test_monitor();
   gpio_config();
   adc_config();
+  dc_pwm_config();
 }
 
 void loop() {
-  wyn = odczyt_adc();
-  Serial.println(wyn);
-  vTaskDelay(250 / portTICK_RATE_MS);
+  dc_speed(odczyt_adc());
+  delay(10);
 }

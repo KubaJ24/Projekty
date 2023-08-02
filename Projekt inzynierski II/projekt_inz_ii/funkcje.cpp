@@ -24,13 +24,13 @@ void gpio_config(){
   gpio_set_direction(silnik_PWM, GPIO_MODE_OUTPUT); gpio_set_level(silnik_PWM, 0);
 
   //Potencjometr sterujący silnikiem
+  //Bez pull up
   gpio_set_direction(GPIO_NUM_35, GPIO_MODE_INPUT);
 }
 
 void adc_config(){
   //Napiecie odniesienia 1,1 V
   //Ustawic attenuation po ustawieniu dzielnika z potencjometrem
-  //Wstepnie 11 dB attenuation - pomiar do 2,6 V
   //Dzielnik to potencjometr 10 kOhm i identyczny rezystor
   //Rozdzielczosc 10 bit -> PWM jest 10 bit
   esp_adc_cal_characteristics_t adc;
