@@ -12,54 +12,45 @@ G = 3;
 
 Do multipleksowania:
 Tranzystor NPN
-4,7k Ohm kolektor
+1k Ohm kolektor
 10k Ohm Baza
 */
 
-const char dig1 = 0;        //Port B PB0 i PB1
-const char dig2 = 1;
+#include "my_sev_seg.h"
+#include <Wire.h>
 
-void digit(char znak);
-void dig_on(char dig_num);
-void dig_off(char dig_num);
+int a = 0;
+int b = 0;
+int liczba = 0;
+int odczyt = 0;
+
+int* dz = &a;
+int* jed = &b;
 
 void setup() {
   //Wyjścia
   DDRD = 0xFF;
-  DDRB = 0x01;
+  DDRB = 0x03;
   //Wyzerowane
   PORTD = 0x00;
   PORTB = 0x00;
+
+  pinMode(A0, INPUT_PULLUP);
+
+  Serial.begin(115200);
 }
 
 void loop() {
-  dig_on(dig1);
-  digit(8);
-  delay(500);
-  dig_off(dig1);
-  delay(500);
-}
-
-void digit(char znak){
-  switch(znak){
-    case 0: PORTD = 0b0001000; break;
-    case 1: PORTD = 0b1011110; break;
-    case 2: PORTD = 0b0010001; break;
-    case 3: PORTD = 0b0010100; break;
-    case 4: PORTD = 0b1000110; break;
-    case 5: PORTD = 0b0100100; break;
-    case 6: PORTD = 0b0100000; break;
-    case 7: PORTD = 0b0011110; break;
-    case 8: PORTD = 0b0000000; break;
-    case 9: PORTD = 0b0000100; break;
-  }
-}
-
-void dig_on(char dig_num){
-  
-  PORTB = 1 << dig_num;
-}
-
-void dig_off(char dig_num){
-  PORTB = ~(1 << dig_num);
+  odczyt = analogRead(A0);
+  liczba = map(odczyt, 0, 850, 0, 99);
+  number_extract(liczba, dz, jed);
+  Serial.print(odczyt);
+  Serial.print(" ");
+  Serial.print(liczba);
+  Serial.print(" ");
+  Serial.print(*dz);
+  Serial.print(" ");
+  Serial.println(*jed);
+  number_display(dz, jed);
+  delay(5);
 }
