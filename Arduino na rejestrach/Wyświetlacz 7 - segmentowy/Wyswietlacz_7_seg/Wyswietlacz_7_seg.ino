@@ -34,23 +34,12 @@ void setup() {
   //Wyzerowane
   PORTD = 0x00;
   PORTB = 0x00;
-
-  pinMode(A0, INPUT_PULLUP);
-
-  Serial.begin(115200);
 }
 
 void loop() {
-  odczyt = analogRead(A0);
-  liczba = map(odczyt, 0, 850, 0, 99);
-  number_extract(liczba, dz, jed);
-  Serial.print(odczyt);
-  Serial.print(" ");
-  Serial.print(liczba);
-  Serial.print(" ");
-  Serial.print(*dz);
-  Serial.print(" ");
-  Serial.println(*jed);
-  number_display(dz, jed);
-  delay(5);
+  for(char i = 0; i < 10; i++){
+    *dz = i;
+    digit_display(dz);
+    delay(1000);
+  }
 }
