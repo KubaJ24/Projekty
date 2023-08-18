@@ -1,10 +1,16 @@
+/*
+Wersja 1 
+18.09.2023
+Podstawowa konfiguracja i pobieranie wyniku ADC
+*/
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "konwersjaADC.h"
 
 void adc_config(){
-    ADCSRA = 0b10001111;
+    ADCSRA = 0b10000111;
     ADMUX = 0b10000000;
 }
 
