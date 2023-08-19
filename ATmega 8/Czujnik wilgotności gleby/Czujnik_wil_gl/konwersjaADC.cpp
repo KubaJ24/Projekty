@@ -1,6 +1,6 @@
 /*
-Wersja 1 
-18.09.2023
+Wersja 1.1 
+19.08.2023
 Podstawowa konfiguracja i pobieranie wyniku ADC
 */
 
@@ -11,7 +11,8 @@ Podstawowa konfiguracja i pobieranie wyniku ADC
 
 void adc_config(){
     ADCSRA = 0b10000111;
-    ADMUX = 0b10000000;
+    //Źródłem odniesienia jest AVcc (Vcc)
+    ADMUX = 0b01000000;
 }
 
 void adc_start(){
